@@ -1,45 +1,37 @@
 const method = (unSortedArr, originalSum) => {
+  const results = [];
+  const sortedArr = unSortedArr.sort((a, b) => a-b);
   let sum = originalSum;
   let currentSum = 0;
-  const results = [];
-
-  let sortedArr = unSortedArr.sort((a, b) => a-b);
   let counter = sortedArr.length;
 
-  const arrSum = arr => arr.reduce((a,b) => a + b, 0);
+  const push = (pointer) => {
+    results.push(sortedArr[pointer]);
+    currentSum = currentSum + sortedArr[pointer];
+    sum = sum - currentSum;
+    sortedArr.splice(pointer, 1);
+    counter = sortedArr.length;
+  };
 
   while(currentSum !== originalSum && currentSum < originalSum && counter > 0) {
     let l = 0, r = sortedArr.length - 1;
     for (let i = 0; i < sortedArr.length; i++) {
       if (sortedArr[l] + sortedArr[r] === sum) {
-        results.push(sortedArr[l]);
-        results.push(sortedArr[r]);
-        currentSum = currentSum + sortedArr[l] + sortedArr[r];
-        sortedArr.splice(l, 1).splice(r-1 , 1);
-        counter = sortedArr.length;
+        push(l);
+        push(r-1);
         break;
       }
       else if(sortedArr[l] === sum || l === r) {
-        results.push(sortedArr[l]);
-        currentSum = currentSum + sortedArr[l];
-        sortedArr.splice(l, 1);
-        counter = sortedArr.length;
+        push(l);
         break;
       }
       else if(sortedArr[r] === sum) {
-        results.push(sortedArr[r]);
-        currentSum = currentSum + sortedArr[r];
-        sortedArr.splice(r, 1);
-        counter = sortedArr.length;
+        push(r);
         break;
       }
       else if (i === sortedArr.length - 1) {
-        results.push(sortedArr[l]);
-        results.push(sortedArr[r]);
-        currentSum = currentSum + sortedArr[l] + sortedArr[r];
-        sortedArr.splice(l, 1).splice(r-1 , 1);
-        sum = sum - currentSum;
-        counter = sortedArr.length;
+        push(l);
+        push(r);
         break;
       }
 
@@ -50,8 +42,7 @@ const method = (unSortedArr, originalSum) => {
     counter--;
   }
 
-
-  return arrSum(results) === originalSum ? results : [];
+  return results.reduce((a,b) => a + b, 0) === originalSum ? results : [];
 };
 
 module.exports =  method;
