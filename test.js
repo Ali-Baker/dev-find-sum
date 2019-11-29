@@ -15,6 +15,13 @@ test('it return an array of numbers', () => {
 test('it return empty array when it can not find solution', () => {
     const sum = 113;
     const result = findSumArray([1,2,3], sum);
-    
+
     expect(arrSum(result)).not.toBe(sum);
+});
+
+test('it return correct solution. Edge case 1', () => {
+    const sum = 113;
+    const result = findSumArray([8,3,4,10,6,8,5,4,2,1,8,45,77,22,5,3,1], sum);
+
+    expect(arrSum(result)).toBe(sum);
 });

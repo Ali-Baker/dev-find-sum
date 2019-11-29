@@ -31,7 +31,6 @@ const method = (unSortedArr, originalSum) => {
       }
       else if (i === sortedArr.length - 1) {
         push(l);
-        push(r);
         break;
       }
 
